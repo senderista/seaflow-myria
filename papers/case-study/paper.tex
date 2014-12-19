@@ -1,0 +1,175 @@
+%% A bit of setup for convenient switching between draft and production modes
+\def\draft{0}
+%% And the commands themselves
+\newcommand{\ifdraft}[0]{\ifnum\draft=1}
+\RequirePackage[final]{graphicx}
+
+\ifdraft
+\documentclass[draft,pdftex,letterpaper]{article}
+\newcommand{\PAGENUMBERS}{yes}       % "yes" or "no"
+\else
+\documentclass[pdftex,letterpaper]{article}
+\newcommand{\PAGENUMBERS}{no}       % "yes" or "no"
+\fi
+
+\clubpenalty=10000 
+\widowpenalty=10000
+
+\usepackage{ifthen}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\figref}[1]{Figure~\ref{#1}}
+\newcommand{\secref}[1]{\S\ref{#1}}
+\newcommand{\tabref}[1]{Table~\ref{#1}}
+%\renewcommand{\eqref}[1]{Eq.~(\ref{#1})}
+\newcommand{\heading}[1]{\vspace{4pt}\noindent\textbf{#1}}
+\newcommand{\topheading}[1]{\noindent\textbf{#1}}
+\newcommand{\noheading}[0]{\vspace{4pt}\noindent}
+\newcommand{\program}[1]{\texttt{#1}}
+\newcommand{\term}[1]{\texttt{#1}}
+\newcommand{\captiontext}[1]{\textsf{\normalsize #1}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\ms}{\,\text{ms}\xspace}
+\newcommand{\us}{\,\text{$\mu$s}\xspace}
+\newcommand{\ns}{\,\text{ns}\xspace}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Generally useful mathy stuff
+\usepackage{amssymb, amsmath}
+
+% Looks better (and more concise) than Times New Roman
+\usepackage{times}
+
+% Better spacing
+\usepackage{microtype}
+
+\ifthenelse{\equal{\PAGENUMBERS}{yes}}{%
+  \pagenumbering{arabic}  % Arabic page numbers GM July 2000
+  \pagestyle{plain}
+}{%
+  \pagestyle{empty}
+}
+
+%%%
+%%%  Footnotes / Endnotes
+%%%
+%\interfootnotelinepenalty=10000  % Split footnotes are annoying
+
+% If you want endnotes, uncomment:
+%\usepackage{endnotes}
+%\usepackage{drafthead}
+%\let\footnote=\endnote
+
+%%%
+%%%  PDF setup
+%%%
+\usepackage[colorlinks,citecolor=blue,pdftex]{hyperref}
+
+% Pretty url links and references
+\usepackage{url}
+
+% Adds xspace command that puts space unless next char is punctuation
+\usepackage{xspace}
+
+%%% Set these variables appropriately
+%%%
+%% Note:  Authors is hardcoded below, this line only used for the PDF info
+\newcommand{\AUTHORS}{Sophie and others}
+\newcommand{\TITLE}{Seaflow-myria case study}
+\newcommand{\TITLECLEAN}{Seaflow-myria case study}
+\newcommand{\KEYWORDS}{to be keyed} % Used below in ACM keywords
+\newcommand{\CONFERENCE}{to be submitted}
+
+\hypersetup{%
+pdfauthor = {\AUTHORS},
+pdftitle = {\TITLECLEAN},
+pdfsubject = {\CONFERENCE},
+pdfkeywords = {\KEYWORDS},
+bookmarksopen = {false},
+pdfpagemode = {UseNone},
+pdfcreator = {},
+pdfproducer = {},
+}
+
+%\clubpenalty=10000  % Don't allow orphans
+%\widowpenalty=10000 % Don't allow widows
+
+\newcommand{\squishlist}{
+   \begin{list}{$\bullet$}
+    { \setlength{\itemsep}{0pt}      \setlength{\parsep}{2.5pt}
+      \setlength{\topsep}{0pt}       \setlength{\partopsep}{3pt}
+      \setlength{\leftmargin}{1mm} \setlength{\labelwidth}{1em}
+      \setlength{\labelsep}{0.5em} \setlength{\itemindent}{3.5mm} } }
+
+\newcommand{\squishlisttwo}{
+   \begin{list}{$\bullet$}
+    { \setlength{\itemsep}{0pt}    \setlength{\parsep}{0pt}
+      \setlength{\topsep}{0pt}     \setlength{\partopsep}{0pt}
+      \setlength{\leftmargin}{2em} \setlength{\labelwidth}{1.5em}
+      \setlength{\labelsep}{0.5em} } }
+
+\newcommand{\squishend}{
+    \end{list}  }
+
+% Tables that look prettier
+\usepackage{booktabs}
+\usepackage{multirow}
+
+%%%
+%%%  For emailing
+%%%
+%\usepackage{drafthead}
+
+%%%
+%%%  Comments
+%%%
+
+\usepackage[usenames,dvipsnames]{color}
+
+\ifdraft
+\newcommand{\note}[2]{
+    \textbf{\textcolor{#1}{#2}}\xspace
+}
+\else\newcommand{\note}[2]{\unskip}
+\fi
+
+\newcommand{\bill}[1]{\note{red}{Bill: #1}}
+\newcommand{\danh}[1]{\note{blue}{DanH: #1}}
+\newcommand{\sophie}[1]{\note{magenta}{Sophie: #1}}
+
+\title{\TITLE}
+\author{Sophie}
+
+% Caption package both lets you set the spacing between figure and caption
+% and also makes the \figref{} point to the right place.
+\usepackage[font=bf,aboveskip=6pt,belowskip=-16pt]{caption}
+% Get the caption package to work with ACM style
+\DeclareCaptionType[placement=b,within=none]{copyrightbox}
+
+% Allow subfigures, make them bold
+\usepackage[bf,BF,small]{subfigure}
+
+%%%%%%%%%%%%%%%%%%%%  START DOCUMENT  %%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\maketitle
+
+\input{abstract}
+%\input{intro}
+%\input{arch}
+%\input{demo}
+%\input{conclusion}
+%
+%%\section*{Acknowledgments}
+%%\vfill
+%%% Bibliography
+%\scriptsize % SPACE
+%\bibliography{sigmod_demo}
+%\bibliographystyle{abbrv}
+%%\theendnotes % ENDNOTES
+
+\end{document}
+
+% Local Variables:
+% TeX-command-default: "LaTeX PDF"
+% End:
